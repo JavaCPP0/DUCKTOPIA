@@ -80,6 +80,6 @@ class ObjectBase {
         this.directX = directX
         this.directY = directY
         // [9] 현재 방향(벡터 좌표) / 속도 / 위치 / 시간 반환
-        return {direct: { x: directX, y: directY }, speed: this.speed, position, timestamp }
+        return {id: this.id, direct: { x: directX, y: directY }, speed: this.speed, position, timestamp }
     }
 }
