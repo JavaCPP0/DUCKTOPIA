@@ -66,6 +66,8 @@ class Player {
   playerPositionUpdate = (dx, dy) => {
     this.x = dx;
     this.y = dy;
+    
+    return { playerId: this.id, x: this.x, y: this.y };
   };
 
   calculatePosition = (otherPlayer, x, y) => {

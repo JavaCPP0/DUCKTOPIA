@@ -1,28 +1,41 @@
-const attackByMonsterReqHandler = (game, playerId, damage) => {
-  const player = game.findPlayerIngame(playerId);
-
-  if (!player) {
-    throw new Error(`피격당한 유저를 찾을 수 없습니다.`);
-  }
-  if (!player.isAlive) {
-    throw new Error(`이미 사망한 플레이어에게 공격중입니다.`);
-  }
+const attackByMonsterReqHandler = (socket,payload) => {
 
   try {
-    //리팩토링 무조건..
-    const hp = player.changePlayerHp(damage);
+        const { playerId, damage } = payload;
 
-    const payload = {
-      playerHpUpdateNotification: {
-        hp,
-      },
-    };
+    // 유저 객체 조회
+    const user = userSession.getUser(socket);
+    if (!user) {
+      throw new Error('유저 정보가 없습니다.');
+    }
 
-    //임시코드: 패킷 인코딩하고 파싱하는 로직
-    const message = dataType.create(payload);
-    const playerHpUpdateNotification = dataType.encode(message).finish();
+    // RoomId 조회
+    const roomId = user.getRoomId();
+    if (!roomId) {
+      throw new Error(`User(${user.id}): RoomId 가 없습니다.`);
+    }
 
-    const notification = payloadParser(playerHpUpdateNotification);
+    // 룸 객체 조회
+    const room = roomSession.getRoom(roomId);
+    if (!room) {
+      throw new Error(`Room ID(${roomId}): Room 정보가 없습니다.`);
+    }
+
+    // 게임 객체(세션) 조회
+    const game = room.getGame();
+    if (!game) {
+      throw new Error(`Room ID(${roomId}): Game 정보가 없습니다.`);
+    }
+
+    // 플레이어 객체 조회
+    const player = game.getPlayer(user.id);
+    if (!player) {
+      throw new Error(`Room ID(${roomId})-User(${user.id}): Player 정보가 없습니다.`);
+    }
+
+    const payload = player.changePlayerHp(damage);
+    const notification = makePacket([PACKET_TYPE.PLAYER_UPDATE_HP_NOTIFICATION], payload);
+
 
     game.players.forEach((player) => {
       if (player.id !== playerId) player.socket.write(notification);
@@ -30,17 +43,11 @@ const attackByMonsterReqHandler = (game, playerId, damage) => {
 
     //만약 방금 피해를 받고 사망했다면
     if (player.isAlive) {
-      const payload = {
-        playerDeadNotification: {
-          playerId,
-        },
-      };
+      const payload = playerId;
 
       //임시 패킷 인코딩하고 파싱하는 로직
-      const message = dataType.create(payload);
-      const playerHpUpdateNotification = dataType.encode(message).finish();
+      const notification = makePacket([PACKET_TYPE.PLAYER_DEATH_NOTIFICATION], payload);
 
-      const notification = payloadParser(playerHpUpdateNotification);
 
       game.players.forEach((player) => {
         if (player.id !== playerId) player.socket.write(notification);
