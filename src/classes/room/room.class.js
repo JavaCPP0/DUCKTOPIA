@@ -36,7 +36,7 @@ class Room {
 
   // 유저 조회
   getUsers() {
-    return this.users.values();
+    return Array.from(this.users.values());
   }
 
   // 방 데이터 추출 (패킷 전송 용도로 가공)
@@ -85,7 +85,7 @@ class Room {
   }
 
   notification(one_socket, packet) {
-    this.users.keys().forEach((socket) => {
+    this.users.forEach((user,socket) => {
       if (socket !== one_socket) socket.write(packet);
     });
   }
