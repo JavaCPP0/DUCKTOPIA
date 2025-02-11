@@ -35,12 +35,6 @@ class User {
     this.socket = socket;
     this.state = null; // 'lobby', 'room', 'playing' 등 현재 상태 체크용
     this.name = null;
-    this.characterType = CharacterType.RED;
-    this.hp = 100;
-    this.weapon = null;
-    this.atk = 10;
-    this.x = 0;
-    this.y = 0;
   }
   
   // player 클래스에 존재
