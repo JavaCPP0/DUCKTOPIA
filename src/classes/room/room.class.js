@@ -84,13 +84,10 @@ class Room {
     return this.game;
   }
 
-  notification(socket, packet) {
-    let targetUsers = [];
-    this.getUsers().forEach((user) => {
-      if (user.socket !== socket) targetUsers.push(user);
+  notification(one_socket, packet) {
+    this.users.keys().forEach((socket) => {
+      if (socket !== one_socket) socket.write(packet);
     });
-
-    broadcast(targetUsers, packet);
   }
 
   // 여기부터 구동을 위해 추가된 부분 나중에 입맛대로 수정해주세요!
@@ -101,12 +98,11 @@ class Room {
   }
 
   joinUserNotification(packet) {
-    const roomUsers = Array.from(this.getUsers());
+    const roomUsers = this.getUsers();
 
+    console.log("유저에게 정보 보내기",packet)
     roomUsers.forEach((user) => {
-      if (user.socket) {
         user.socket.write(packet);
-      }
     });
   }
 

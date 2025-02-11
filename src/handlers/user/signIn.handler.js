@@ -30,7 +30,7 @@ const signInHandler = async ({ socket, payload }) => {
     }
 
     // 4. 중복 로그인 유저 세션에서 체크
-    const existingUser = userSession.forEach((user, key, map) => {
+    const existingUser = userSession.users.forEach((user, key, map) => {
       if (user.email === email) return user;
     });
 
@@ -39,7 +39,7 @@ const signInHandler = async ({ socket, payload }) => {
     }
 
     // 5. 찾은 유저에 로그인 정보 추가
-    user.login(newId, userData.name); // TODO 나중에 newId -> email로 변경하기
+    user.login(userData.user_id, userData.email, userData.name); // TODO 나중에 newId -> email로 변경하기
 
     newId += 1; // TODO 나중에 삭제
 

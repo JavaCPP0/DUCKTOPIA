@@ -45,6 +45,8 @@ const gameStartHandler = ({socket, payload}) => {
     if(!room) {
       throw new Error('방 생성에 실패했습니다!');
     }
+
+    console.log("게임시작 들어옴")
     
     const GameStartNotification = makePacket(PACKET_TYPE.START_GAME_NOTIFICATION, {
       gameState: { phaseType: 1, nextPhaseAt: 100000 }, //이삭님 코드에 이렇게돼있음!
@@ -54,10 +56,8 @@ const gameStartHandler = ({socket, payload}) => {
 
     room.joinUserNotification(GameStartNotification);
 
-    console.log('Game Start!');
-
   } catch (err) {
-
+    console.error(err);
   }
 };
 

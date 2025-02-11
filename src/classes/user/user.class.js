@@ -37,35 +37,36 @@ class User {
     this.name = null;
   }
   
-  // // player 클래스에 존재
-  // posiup(x, y) {
-  //   this.x = x;
-  //   this.y = y;
-  // }
+  // player 클래스에 존재
+  posiup(x, y) {
+    this.x = x;
+    this.y = y;
+  }
 
-  // getpsi() {
-  //   return { playerId: this.id, x: this.x, y: this.y };
-  // }
+  getpsi() {
+    return { playerId: this.id, x: this.x, y: this.y };
+  }
 
   // // player 클래스로 이동
-  // getCharacter() {
-  //   return {
-  //     characterType: this.characterType,
-  //     hp: this.hp,
-  //     weapon: this.weapon,
-  //     atk: this.atk,
-  //   };
-  // }
-  // getUserData() {
-  //   return {
-  //     playerId: this.id,
-  //     nickname: this.name,
-  //     character: this.getCharacter(),
-  //   };
-  // }
+  getCharacter() {
+    return {
+      characterType: 1,
+      hp: this.hp,
+      weapon: this.weapon,
+      atk: this.atk,
+    };
+  }
+  getUserData() {
+    return {
+      playerId: this.id,
+      nickname: this.name,
+      character: this.getCharacter(),
+    };
+  }
 
   // 로그인
-  login(email, name) {
+  login(id, email, name) {
+    this.id = id;
     this.email = email;
     this.name = name;
     this.state = 'lobby';

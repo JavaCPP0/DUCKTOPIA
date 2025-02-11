@@ -100,7 +100,7 @@ class Client {
   // 요청 메서드 모음
 
   async registerRequest() {
-    const payload = { email: this.id, password: this.password, name: 'test' };
+    const payload = { email: this.id, password: this.password, name: this.name };
     this.sendPacket(config.packetType.REGISTER_REQUEST, payload);
   }
 
@@ -139,5 +139,5 @@ const loginTest = async (client_count = 1) => {
 
 // 테스트 실행문
 await loadProtos().then(() => {
-  loginTest();
+  registerTest(5);
 });
