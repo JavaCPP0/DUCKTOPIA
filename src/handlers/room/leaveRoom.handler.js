@@ -5,7 +5,7 @@ import CustomError from '../../utils/error/customError.js';
 
 const leaveRoomHandler = ({ socket, payload }) => {
   // 1. 유저 찾기
-  const user = userSession.getUser(socket.id);
+  const user = userSession.getUser(socket);
   if (!user) {
     throw new CustomError('유저가 존재하지 않습니다.');
   }

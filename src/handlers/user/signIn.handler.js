@@ -20,7 +20,7 @@ const signInHandler = async ({ socket, payload }) => {
   }
 
   // 3. 소켓을 이용해서 유저 찾기
-  const user = userSession.getUser(socket.id);
+  const user = userSession.getUser(socket);
   if (!user) {
     throw new CustomError('소켓을 찾을 수 없습니다.');
   }

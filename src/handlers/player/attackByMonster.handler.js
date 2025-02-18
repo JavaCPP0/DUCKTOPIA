@@ -1,12 +1,7 @@
-import { roomSession, userSession } from '../../sessions/session.js';
 import CustomError from '../../utils/error/customError.js';
 
-const attackByMonsterReqHandler = ({ socket, payload}) => {
-  const { monsterId, targetId } = payload
-  const user = userSession.getUser(socket.id);
-  const room = roomSession.getRoom(user.roomId);
-
-  const player = room.game.getPlayerById(targetId);
+const attackByMonsterReqHandler = (game, playerId, damage) => {
+  const player = game.findPlayerIngame(playerId);
 
   if (!player) {
     throw new CustomError(`피격당한 유저를 찾을 수 없습니다.`);

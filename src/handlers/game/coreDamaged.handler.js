@@ -5,7 +5,7 @@ import makePacket from "../../utils/packet/makePacket";
 const coreDamaged = ({socket,payload}) => {
     const { damage } = payload.damage;
 
-    const user = userSession.getUser(socket.id);
+    const user = userSession.getUser(socket);
     if (!user) return;
 
     const room = roomSession.getRoom(user.getRoomId());

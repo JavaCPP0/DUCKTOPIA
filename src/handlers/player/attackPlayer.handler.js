@@ -7,7 +7,7 @@ const attackPlayerHandler = ({ socket, payload }) => {
   const { playerDirX, playerDirY } = payload;
 
   // 유저 객체 조회
-  const user = userSession.getUser(socket.id);
+  const user = userSession.getUser(socket);
   if (!user) {
     throw new CustomError('유저 정보가 없습니다.');
   }
@@ -37,7 +37,7 @@ const attackPlayerHandler = ({ socket, payload }) => {
   }
 
   // Notification - 다른 플레이어들에게 전달
-  const motionPayload = { playerId: user.id, playerDirX, playerDirY };
+  const motionPayload = { playerId: player.id, playerDirX, playerDirY };
   const packet = makePacket(config.packetType.S_PLAYER_ATTACK_NOTIFICATION, motionPayload);
   game.notification(socket, packet);
 };

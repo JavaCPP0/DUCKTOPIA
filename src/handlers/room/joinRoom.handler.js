@@ -7,7 +7,7 @@ const joinRoomHandler = ({ socket, payload }) => {
   const { roomId } = payload;
 
   // 1. 유저 찾기
-  const user = userSession.getUser(socket.id);
+  const user = userSession.getUser(socket);
   if (!user) {
     throw new CustomError('유저를 찾지 못했습니다.');
   }
